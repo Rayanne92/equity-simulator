@@ -45,3 +45,56 @@ Le fichier ```requirements.txt``` doit contenir :
 plotly
 pandas
 ```
+
+## Usage
+
+Lancez l’application avec :
+
+```bash
+python main.py
+```
+
+## Fonctionnement rapide
+1. Saisissez vos paramètres de trading dans l’interface.
+2. Cliquez sur "Lancer la simulation".
+3. Un graphique interactif s’ouvre dans votre navigateur montrant les différentes courbes d’equity simulées.
+4. Les statistiques clés s’affichent sous les paramètres.
+
+## Description mathématique du modèle
+
+L’**Equity Simulator** modélise l’évolution du capital d’un trader à travers une suite de trades, selon les paramètres suivants :
+
+- \( C_0 \) : Capital initial
+- \( p \) : Taux de réussite (probabilité de gain)
+- \( RRR \) : Ratio Risque/Récompense
+- \( n \) : Nombre de trades par simulation
+- \( m \) : Nombre de simulations
+- \( r \) : Taille du risque par trade (en % ou en montant fixe)
+
+À chaque trade \( i \), on risque \( R_i \) défini par :
+\[
+R_i = \begin{cases}
+r \times C_{i-1} & \text{si risque en pourcentage}\\
+r & \text{si risque fixe}
+\end{cases}
+\]
+
+Le capital évolue ainsi :
+\[
+C_i = C_{i-1} + 
+\begin{cases}
+R_i \times RRR & \text{avec probabilité } p \\
+- R_i & \text{avec probabilité } 1-p
+\end{cases}
+\]
+
+En réalisant \( m \) simulations indépendantes, on obtient une distribution des trajectoires \( \{C_i^{(j)}\} \), ce qui permet d’estimer :
+
+- Les valeurs minimales et maximales d’equity
+- Le nombre maximal de trades gagnants et perdants
+- Les drawdowns maximaux et moyens, définis par :
+\[
+DD^{(j)} = \max_{1 \leq i \leq n} \left( \max_{1 \leq k \leq i} C_k^{(j)} - C_i^{(j)} \right)
+\]
+
+Ce modèle fournit ainsi un outil quantitatif d’évaluation et de gestion du risque pour les stratégies de trading.
