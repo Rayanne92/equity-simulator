@@ -29,7 +29,7 @@
 1. Cloner ce dépôt :
 
 ```bash
-git clone https://github.com/ton-utilisateur/equity-simulator.git
+git clone https://github.com/Rayanne92/equity-simulator.git
 cd equity-simulator
 ```
 
